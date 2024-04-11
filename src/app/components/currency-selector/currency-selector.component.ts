@@ -8,6 +8,7 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { FormsModule } from '@angular/forms';
 import { stringifyCurrency } from '../../utils/currency.utils';
 import { Currency } from '../../types/currency.types';
+import { ImgFallbackDirective } from '../../directives/img-fallback.directive';
 
 @Component({
   standalone: true,
@@ -19,15 +20,19 @@ import { Currency } from '../../types/currency.types';
     TuiComboBoxModule,
     TuiDataListWrapperModule,
     TuiTextfieldControllerModule,
+    ImgFallbackDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [tuiItemsHandlersProvider({ stringify: stringifyCurrency })],
 })
 export class CurrencySelectorComponent {
   @Input() items: Currency[][] = [];
-  imageSrc = '../../../assets/white-flag.jpg';
 
   selectedCurrency!: Currency;
 
   labels = ['Popular', 'All'];
+
+  getUrl(isoCode: string): string {
+    return `https://flagcdn.com/w40/${isoCode.slice(0, 2).toLowerCase()}.png`;
+  }
 }
