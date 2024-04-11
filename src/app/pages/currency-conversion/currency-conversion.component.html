@@ -2,15 +2,25 @@
   <div>
     <currency-selector
       [items]="[popularCurrencies, currencies]"
+      (currencyChange)="setIsoCodeLeft($event)"
     ></currency-selector>
-    <currency-input></currency-input>
+    <currency-input
+      [currencyAmount]="currencyAmountLeft"
+      [isoCode]="isoCodeLeft"
+      (currencyAmountChange)="setCurrencyAmountLeft($event)"
+    ></currency-input>
   </div>
   <img class="two-way-arrows" src="../../../assets/two-way-arrows.png" />
   <div>
     <currency-selector
       [items]="[popularCurrencies, currencies]"
+      (currencyChange)="setIsoCodeRight($event)"
     ></currency-selector>
-    <currency-input></currency-input>
+    <currency-input
+      [currencyAmount]="currencyAmountRight"
+      [isoCode]="isoCodeRight"
+      (currencyAmountChange)="setCurrencyAmountRight($event)"
+    ></currency-input>
   </div>
-  <date-selector></date-selector>
+  <date-selector (dateChange)="setConversionDate($event)"></date-selector>
 </div>

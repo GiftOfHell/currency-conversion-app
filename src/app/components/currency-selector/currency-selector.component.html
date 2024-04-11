@@ -3,6 +3,7 @@
   [valueContent]="currencyContent"
   [tuiTextfieldLabelOutside]="true"
   [(ngModel)]="selectedCurrency"
+  (ngModelChange)="onCurrencyChange($event)"
 >
   Choose currency
   <input tuiTextfield />

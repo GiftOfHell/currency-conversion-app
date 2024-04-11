@@ -2,6 +2,7 @@
   class="input-date-container"
   [max]="maxDate"
   [(ngModel)]="selectedDate"
+  (ngModelChange)="onDateChange($event)"
 >
   Choose a date
 </tui-input-date>

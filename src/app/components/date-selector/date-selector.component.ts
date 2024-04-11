@@ -17,6 +17,7 @@ import { TuiInputDateModule } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateSelectorComponent {
+  @Output() dateChange = new EventEmitter<Date>();
   selectedDate: TuiDay;
   maxDate: TuiDay;
 
@@ -28,5 +29,10 @@ export class DateSelectorComponent {
       currentDate.getDate()
     );
     this.selectedDate = this.maxDate;
+  }
+
+  onDateChange(newTuiDate: TuiDay): void {
+    const newDate = new Date(newTuiDate.year, newTuiDate.month, newTuiDate.day);
+    this.dateChange.emit(newDate);
   }
 }

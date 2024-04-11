@@ -1,6 +1,8 @@
 <tui-input-number
   class="currency-input-conteiner"
   [tuiTextfieldLabelOutside]="true"
+  [(ngModel)]="currencyAmount"
+  (ngModelChange)="onCurrencyAmountInput($event)"
 >
   Input amount
 </tui-input-number>
