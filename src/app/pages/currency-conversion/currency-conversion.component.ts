@@ -4,6 +4,7 @@ import { CurrencySelectorComponent } from '../../components/currency-selector/cu
 import { DateSelectorComponent } from '../../components/date-selector/date-selector.component';
 import { CurrencyService } from '../../services/currency.service';
 import { Currency } from '../../types/currency.types';
+import { FrequencyService } from '../../services/frequency.service';
 
 @Component({
   selector: 'currency-conversion',
@@ -18,14 +19,33 @@ import { Currency } from '../../types/currency.types';
 })
 export class CurrencyConversionComponent {
   currencies: Currency[] = [];
+  popularCurrencies: Currency[] = [];
 
-  constructor(private currencyService: CurrencyService) {}
+  constructor(
+    private currencyService: CurrencyService,
+    private frequencyService: FrequencyService
+  ) {}
 
   ngOnInit(): void {
     this.currencyService.getCurrencies().subscribe((response) => {
       this.currencies = Object.entries(response.currencies).map(
         ([isoCode, currencyName]) => ({ isoCode, currencyName })
       );
+      this.sortCurrencies();
     });
+  }
+
+  sortCurrencies(): void {
+    const sortedCurrencies = [...this.currencies].sort((a, b) => {
+      const frequencyA = this.frequencyService.getItemFrequency(a.isoCode);
+      const frequencyB = this.frequencyService.getItemFrequency(b.isoCode);
+      return frequencyB - frequencyA;
+    });
+    const popularCurrencies = sortedCurrencies
+      .filter((currency) => {
+        return this.frequencyService.getItemFrequency(currency.isoCode) > 0;
+      })
+      .slice(0, 3);
+    this.popularCurrencies = popularCurrencies;
   }
 }

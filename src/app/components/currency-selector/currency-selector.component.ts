@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
+  TuiFilterByInputPipeModule,
   tuiItemsHandlersProvider,
 } from '@taiga-ui/kit';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -19,6 +20,7 @@ import { ImgFallbackDirective } from '../../directives/img-fallback.directive';
     FormsModule,
     TuiComboBoxModule,
     TuiDataListWrapperModule,
+    TuiFilterByInputPipeModule,
     TuiTextfieldControllerModule,
     ImgFallbackDirective,
   ],
@@ -35,4 +37,9 @@ export class CurrencySelectorComponent {
   getUrl(isoCode: string): string {
     return `https://flagcdn.com/w40/${isoCode.slice(0, 2).toLowerCase()}.png`;
   }
+
+  readonly matcherString = (currency: Currency, search: string): boolean =>
+    (currency.isoCode + ' ' + currency.currencyName)
+      .toLowerCase()
+      .includes(search.toLowerCase());
 }
