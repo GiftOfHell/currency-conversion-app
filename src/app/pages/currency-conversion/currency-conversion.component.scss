@@ -1,19 +1,21 @@
 .currency-conversion-container {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: 1fr 30px 1fr;
   grid-gap: 20px;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-  margin-top: 50px;
+  margin: 50px auto 0;
+  padding: 10px;
+  max-width: 900px;
 }
 
 .two-way-arrows {
   width: 30px;
+  align-self: center;
+  justify-self: center;
 }
 
 @media screen and (max-width: 900px) {
   .currency-conversion-container {
-    grid-template-columns: 370px;
+    grid-template-columns: auto;
+    max-width: 450px;
   }
 }
