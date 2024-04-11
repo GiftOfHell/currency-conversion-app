@@ -1,0 +1,28 @@
+<tui-combo-box
+  class="currency-selector-conteiner"
+  [valueContent]="currencyContent"
+  [tuiTextfieldLabelOutside]="true"
+  [(ngModel)]="selectedCurrency"
+>
+  Choose currency
+  <input tuiTextfield />
+  <tui-data-list-wrapper
+    *tuiDataList
+    [itemContent]="currencyContent"
+    [items]="items"
+    [labels]="labels"
+  ></tui-data-list-wrapper>
+</tui-combo-box>
+
+<ng-template #currencyContent let-currency>
+  <div>
+    <img
+      class="flag-image"
+      [src]="imageSrc"
+      [alt]="currency.currencyName"
+      appImgFallback
+    />
+    <span class="currency-iso">{{ currency.isoCode }}</span>
+    <span>{{ currency.currencyName }}</span>
+  </div>
+</ng-template>
