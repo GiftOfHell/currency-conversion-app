@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   TuiComboBoxModule,
   TuiDataListWrapperModule,
@@ -24,16 +24,7 @@ import { Currency } from '../../types/currency.types';
   providers: [tuiItemsHandlersProvider({ stringify: stringifyCurrency })],
 })
 export class CurrencySelectorComponent {
-  items = [
-    [
-      { isoCode: 'USD', currencyName: 'Dollar' },
-      { isoCode: 'BYN', currencyName: 'Rubble' },
-    ],
-    [
-      { isoCode: 'BYN', currencyName: 'Rubble' },
-      { isoCode: 'USD', currencyName: 'Dollar' },
-    ],
-  ];
+  @Input() items: Currency[][] = [];
   imageSrc = '../../../assets/white-flag.jpg';
 
   selectedCurrency!: Currency;
