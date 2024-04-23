@@ -1,3 +1,5 @@
+<input type="text" [(ngModel)]="searchString" (input)="onSearchInput()" />
+
 <table>
   <thead>
     <tr>
@@ -6,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let currency of conversions">
+    <tr *ngFor="let currency of filteredConversions">
       <td>({{ currency.isoCode }}) {{ currency.currencyName }}</td>
       <td>{{ currency.rate }}</td>
     </tr>

@@ -18,6 +18,7 @@ import { Currency } from '../../types/currency.types';
 import { ImgFallbackDirective } from '../../directives/img-fallback.directive';
 import { FrequencyService } from '../../services/frequency.service';
 import { FlagIsoCode } from '../../pipes/iso-code.pipe';
+import { matchCurrencyString } from '../../utils/currency.utils';
 
 @Component({
   standalone: true,
@@ -43,6 +44,7 @@ export class CurrencySelectorComponent {
   selectedCurrency!: Currency;
 
   labels = ['Popular', 'All'];
+  matchCurrencyString = matchCurrencyString;
 
   constructor(private frequencyService: FrequencyService) {}
 
@@ -50,9 +52,4 @@ export class CurrencySelectorComponent {
     this.frequencyService.incrementItemFrequency(newCurrency.isoCode);
     this.currencyChange.emit(newCurrency.isoCode);
   }
-
-  readonly matcherString = (currency: Currency, search: string): boolean =>
-    (currency.isoCode + ' ' + currency.currencyName)
-      .toLowerCase()
-      .includes(search.toLowerCase());
 }
