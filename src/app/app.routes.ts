@@ -3,6 +3,7 @@ import { CurrencyConversionComponent } from './pages/currency-conversion/currenc
 import { CurrencyListComponent } from './pages/currency-list/currency-list.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'currency-list',
     component: CurrencyListComponent,
+    canActivate: [authGuard],
   },
   {
     path: '**',

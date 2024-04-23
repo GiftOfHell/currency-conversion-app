@@ -9,7 +9,7 @@
     <li>
       <a routerLink="conversion">Conversion</a>
     </li>
-    <li>
+    <li *ngIf="isUserAuthorized()">
       <a routerLink="currency-list">Currency List</a>
     </li>
   </ul>
