@@ -1,8 +1,14 @@
-export type Currency = { isoCode: string; currencyName: string };
+export type Currency = { isoCode: string; currencyName: string; rate?: number };
 
 export type CurrencyResponse = {
   currencies: Record<string, string>;
   status: string;
+};
+
+export type CurrencyRate = {
+  currency_name: string;
+  rate: string;
+  rate_for_amount: string;
 };
 
 export type CurrencyConversionResponse = {
@@ -11,13 +17,7 @@ export type CurrencyConversionResponse = {
   base_currency_code: string;
   amount: number;
   base_currency_name: string;
-  rates: {
-    [key: string]: {
-      currency_name: string;
-      rate: string;
-      rate_for_amount: string;
-    };
-  };
+  rates: Record<string, CurrencyRate>;
 };
 
 export type CurrencyAmountChangeEvent = {

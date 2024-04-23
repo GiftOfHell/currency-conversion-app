@@ -17,6 +17,7 @@ import { stringifyCurrency } from '../../utils/currency.utils';
 import { Currency } from '../../types/currency.types';
 import { ImgFallbackDirective } from '../../directives/img-fallback.directive';
 import { FrequencyService } from '../../services/frequency.service';
+import { FlagIsoCode } from '../../pipes/iso-code.pipe';
 
 @Component({
   standalone: true,
@@ -30,6 +31,7 @@ import { FrequencyService } from '../../services/frequency.service';
     TuiFilterByInputPipeModule,
     TuiTextfieldControllerModule,
     ImgFallbackDirective,
+    FlagIsoCode,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [tuiItemsHandlersProvider({ stringify: stringifyCurrency })],
@@ -43,10 +45,6 @@ export class CurrencySelectorComponent {
   labels = ['Popular', 'All'];
 
   constructor(private frequencyService: FrequencyService) {}
-
-  getUrl(isoCode: string): string {
-    return `https://flagcdn.com/w40/${isoCode.slice(0, 2).toLowerCase()}.png`;
-  }
 
   onCurrencyChange(newCurrency: Currency): void {
     this.frequencyService.incrementItemFrequency(newCurrency.isoCode);

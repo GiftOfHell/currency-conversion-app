@@ -35,4 +35,14 @@ export class CurrencyConversionService {
     }?${params.toString()}`;
     return this.http.get<CurrencyConversionResponse>(baseUrl);
   }
+
+  getCurrencyConversionsBYN() {
+    const params = new URLSearchParams({
+      api_key: environment.apiKey,
+      from: 'BYN',
+      format: 'json',
+    });
+    const baseUrl = `${environment.apiUrl}/convert?${params.toString()}`;
+    return this.http.get<CurrencyConversionResponse>(baseUrl);
+  }
 }

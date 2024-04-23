@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <th>Currency name</th>
+      <th>Rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let currency of conversions">
+      <td>({{ currency.isoCode }}) {{ currency.currencyName }}</td>
+      <td>{{ currency.rate }}</td>
+    </tr>
+  </tbody>
+</table>

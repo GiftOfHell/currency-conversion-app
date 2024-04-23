@@ -18,7 +18,7 @@
   <div>
     <img
       class="flag-image"
-      [src]="getUrl(currency.isoCode)"
+      [src]="currency.isoCode | flagIsoCode"
       [alt]="currency.currencyName"
       appImgFallback
     />
