@@ -1,13 +1,22 @@
 <div>Login</div>
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="loginUser()">
   <div>
     <label>Username:</label>
-    <input type="text" />
+    <input type="text" formControlName="username" />
+    <div *ngIf="submitted && username.invalid && !username.untouched">
+      <div *ngIf="username.errors?.['required']">Username is required</div>
+    </div>
   </div>
   <div>
     <label>Password:</label>
-    <input type="password" />
+    <input type="password" formControlName="password" />
+    <div *ngIf="submitted && password.invalid && !password.untouched">
+      <div *ngIf="password.errors?.['required']">Password is required</div>
+    </div>
   </div>
-  <div></div>
+  <div>
+    <div *ngIf="password.errors?.['incorrectPassword']">Incorrect password</div>
+    <div *ngIf="username.errors?.['incorrectUsername']">Incorrect username</div>
+  </div>
   <button type="submit">Login</button>
 </form>

@@ -31,4 +31,9 @@ export class UserService {
       localStorage.setItem('users', JSON.stringify(users));
     });
   }
+
+  getUserByUsername(username: string): User | null {
+    const users = this.getUsers();
+    return users.find((user) => user.username === username) || null;
+  }
 }
