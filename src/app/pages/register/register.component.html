@@ -29,11 +29,7 @@
         Confirm password is required
       </div>
     </div>
-    <div
-      *ngIf="registrationForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid"
-    >
-      Passwords must match
-    </div>
+    <div *ngIf="isPasswordMismatch">Passwords must match</div>
   </div>
   <button type="submit">Register</button>
 </form>

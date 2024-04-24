@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { NgIf } from '@angular/common';
 import { passwordMatchValidator } from '../../validators/password-match.validator';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -50,7 +50,15 @@ export class RegisterComponent implements OnInit {
     return this.registrationForm.controls['confirmPassword'];
   }
 
-  registerUser() {
+  get isPasswordMismatch() {
+    return (
+      this.registrationForm.errors?.['passwordMismatch'] &&
+      this.confirmPassword.valid &&
+      this.password.valid
+    );
+  }
+
+  async registerUser() {
     if (this.registrationForm.invalid) {
       return;
     }
@@ -58,14 +66,19 @@ export class RegisterComponent implements OnInit {
     const username = this.registrationForm.value.username;
     const password = this.registrationForm.value.password;
 
-    const isUsernameTaken = this.userService.isUsernameTaken(username);
-    if (isUsernameTaken) {
-      this.username.setErrors({ taken: true });
-    } else {
-      this.userService.createUser(username, password);
-
-      this.registrationForm.reset();
-      this.router.navigate(['login']);
+    try {
+      const registered = await this.authService.registerUser(
+        username,
+        password
+      );
+      if (registered) {
+        this.registrationForm.reset();
+        this.router.navigate(['login']);
+      } else {
+        this.username.setErrors({ taken: true });
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
     }
   }
 }

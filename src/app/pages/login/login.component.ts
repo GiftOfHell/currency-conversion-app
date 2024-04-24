@@ -6,10 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'login',
@@ -25,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -43,25 +42,18 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls['password'];
   }
 
-  loginUser() {
+  async loginUser() {
     const { username, password } = this.loginForm.value;
-    const user = this.userService.getUserByUsername(username);
 
-    if (user) {
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-          console.error('Error comparing passwords:', err);
-          return;
-        }
-        if (result) {
-          sessionStorage.setItem('username', username);
-          this.router.navigate(['/currency-list']);
-        } else {
-          this.password.setErrors({ incorrectPassword: true });
-        }
-      });
-    } else {
-      this.username.setErrors({ incorrectUsername: true });
+    try {
+      const loggedIn = await this.authService.loginUser(username, password);
+      if (loggedIn) {
+        this.router.navigate(['/currency-list']);
+      } else {
+        this.loginForm.setErrors({ incorrectPassword: true });
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
     }
   }
 }

@@ -15,8 +15,9 @@
     </div>
   </div>
   <div>
-    <div *ngIf="password.errors?.['incorrectPassword']">Incorrect password</div>
-    <div *ngIf="username.errors?.['incorrectUsername']">Incorrect username</div>
+    <div *ngIf="loginForm.errors?.['incorrectPassword']">
+      Incorrect username or password
+    </div>
   </div>
   <button type="submit">Login</button>
 </form>
