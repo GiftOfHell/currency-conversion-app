@@ -1,30 +1,40 @@
 import { Injectable } from '@angular/core';
 import { User } from '../types/user.types';
 import * as bcrypt from 'bcryptjs';
+import { IndexedDbService } from './indexed-db.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  getUsers(): User[] {
-    const usersJson = localStorage.getItem('users') || '[]';
-    return JSON.parse(usersJson);
+  dbName = 'users-store';
+
+  constructor(private indexedDbService: IndexedDbService) {}
+
+  async getUsers(): Promise<User[]> {
+    const readStore = await this.indexedDbService.getReadAccess<User>(
+      this.dbName
+    );
+    return await readStore.getAll();
   }
 
-  getUserByUsername(username: string): User | null {
-    const users = this.getUsers();
-    return users.find((user) => user.username === username) || null;
+  async getUserByUsername(username: string): Promise<User | null> {
+    const readStore = await this.indexedDbService.getReadAccess<User>(
+      this.dbName
+    );
+    return await readStore.get(username);
   }
 
-  createUser(user: User): void {
-    const users = this.getUsers();
-    users.push(user);
-    localStorage.setItem('users', JSON.stringify(users));
+  async createUser(user: User): Promise<void> {
+    const writeStore = await this.indexedDbService.getWriteAccess<User>(
+      this.dbName
+    );
+    await writeStore.add(user);
   }
 
-  isUsernameTaken(username: string): boolean {
-    const users = this.getUsers();
-    return users.some((user) => user.username === username);
+  async isUsernameTaken(username: string): Promise<boolean> {
+    const user = await this.getUserByUsername(username);
+    return !!user;
   }
 
   isUserAuthorized(): boolean {
@@ -32,7 +42,7 @@ export class AuthService {
   }
 
   async loginUser(username: string, password: string): Promise<boolean> {
-    const user = this.getUserByUsername(username);
+    const user = await this.getUserByUsername(username);
     if (user) {
       const result = await bcrypt.compare(password, user.password);
       if (result) {
@@ -44,7 +54,7 @@ export class AuthService {
   }
 
   async registerUser(username: string, password: string): Promise<boolean> {
-    const isUsernameTaken = this.isUsernameTaken(username);
+    const isUsernameTaken = await this.isUsernameTaken(username);
     if (isUsernameTaken) {
       return false;
     } else {
