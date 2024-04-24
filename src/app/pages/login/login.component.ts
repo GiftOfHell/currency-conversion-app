@@ -44,13 +44,14 @@ export class LoginComponent implements OnInit {
 
   async loginUser() {
     const { username, password } = this.loginForm.value;
+    this.submitted = true;
 
     try {
       const loggedIn = await this.authService.loginUser(username, password);
       if (loggedIn) {
         this.router.navigate(['/currency-list']);
       } else {
-        this.loginForm.setErrors({ incorrectPassword: true });
+        this.loginForm.setErrors({ incorrectLoginData: true });
       }
     } catch (error) {
       console.error('Error logging in:', error);

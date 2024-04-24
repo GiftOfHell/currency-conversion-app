@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   registrationForm!: FormGroup;
+  submitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,6 +60,7 @@ export class RegisterComponent implements OnInit {
   }
 
   async registerUser() {
+    this.submitted = true;
     if (this.registrationForm.invalid) {
       return;
     }

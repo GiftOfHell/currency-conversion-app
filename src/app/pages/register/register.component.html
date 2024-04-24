@@ -3,7 +3,7 @@
   <div>
     <label>Username:</label>
     <input type="text" formControlName="username" />
-    <div *ngIf="username.invalid && !username.untouched">
+    <div *ngIf="username.invalid && (!username.untouched || submitted)">
       <div *ngIf="username.errors?.['required']">Username is required</div>
       <div *ngIf="username.errors?.['minlength']">
         Username must be at least 4 characters
@@ -14,7 +14,7 @@
   <div>
     <label>Password:</label>
     <input type="password" formControlName="password" />
-    <div *ngIf="password.invalid && !password.untouched">
+    <div *ngIf="password.invalid && (!password.untouched || submitted)">
       <div *ngIf="password.errors?.['required']">Password is required</div>
       <div *ngIf="password.errors?.['minlength']">
         Password must be at least 8 characters
@@ -24,7 +24,11 @@
   <div>
     <label>Confirm Password:</label>
     <input type="password" formControlName="confirmPassword" />
-    <div *ngIf="confirmPassword.invalid && !confirmPassword.untouched">
+    <div
+      *ngIf="
+        confirmPassword.invalid && (!confirmPassword.untouched || submitted)
+      "
+    >
       <div *ngIf="confirmPassword.errors?.['required']">
         Confirm password is required
       </div>

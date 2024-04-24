@@ -3,19 +3,19 @@
   <div>
     <label>Username:</label>
     <input type="text" formControlName="username" />
-    <div *ngIf="submitted && username.invalid && !username.untouched">
+    <div *ngIf="username.invalid && (!username.untouched || submitted)">
       <div *ngIf="username.errors?.['required']">Username is required</div>
     </div>
   </div>
   <div>
     <label>Password:</label>
     <input type="password" formControlName="password" />
-    <div *ngIf="submitted && password.invalid && !password.untouched">
+    <div *ngIf="password.invalid && (!password.untouched || submitted)">
       <div *ngIf="password.errors?.['required']">Password is required</div>
     </div>
   </div>
   <div>
-    <div *ngIf="loginForm.errors?.['incorrectPassword']">
+    <div *ngIf="loginForm.errors?.['incorrectLoginData']">
       Incorrect username or password
     </div>
   </div>
